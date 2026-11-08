@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "nuvui": {
+      "source": "Nuvraxis/nuvui",
+      "sourceType": "github",
+      "skillPath": "skills/nuvui/SKILL.md",
+      "computedHash": "4b46b3c91709927ee93e7baa77f39da0a23eee4083c79d95de90a05d6961667e"
+    }
+  }
+}
