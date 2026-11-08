@@ -1,49 +1,63 @@
+/* The app's typeface, fed into nuvui's font tokens. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+/* Accent color. The accent picker puts data-accent and --accent-h (a hue in
+   degrees) on <html>. Lightness and chroma are fixed per mode, so every hue
+   keeps its contrast: about 5:1 for white text on the light primary, and
+   about 7:1 for dark text on the dark one. Without data-accent, nuvui's own
+   blue is used. These rules are in no layer, so they win over the library's
+   tokens layer without !important. */
+:root[data-accent] {
+  --accent-light: oklch(54.6% 0.215 var(--accent-h));
+  --accent-dark: oklch(72% 0.16 var(--accent-h));
+}
+
+:root[data-accent][data-theme="light"],
+:root[data-accent][data-theme="system"] {
+  --color-primary: var(--accent-light);
+  --color-primary-foreground: var(--color-white);
+  --color-ring: var(--accent-light);
+  --color-chart-1: var(--accent-light);
+}
+
+:root[data-accent][data-theme="dark"] {
+  --color-primary: var(--accent-dark);
+  --color-primary-foreground: var(--color-gray-950);
+  --color-ring: var(--accent-dark);
+  --color-chart-1: var(--accent-dark);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root[data-accent][data-theme="system"] {
+    --color-primary: var(--accent-dark);
+    --color-primary-foreground: var(--color-gray-950);
+    --color-ring: var(--accent-dark);
+    --color-chart-1: var(--accent-dark);
   }
 }
 
 html {
-  height: 100%;
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
+  block-size: 100%;
 }
 
 body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
   margin: 0;
+  min-block-size: 100%;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+html:focus-within {
+  scroll-behavior: smooth;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
   }
 }
