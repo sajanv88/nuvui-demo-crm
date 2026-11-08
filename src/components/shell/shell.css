@@ -1,0 +1,304 @@
+/* The app's frame: sidebar, top bar and page. Smallest screen first, with
+   nuvui's breakpoints written out (md 48rem, lg 64rem, 2xl 96rem). Every
+   color is a theme token. */
+
+.shell {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
+
+.shell__brand {
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-tight);
+}
+
+/* The page beside the sidebar may not grow past the room it has, so wide
+   things such as the table scroll in their own box. */
+.shell__main {
+  min-inline-size: 0;
+}
+
+.shell__bar {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+  display: flex;
+  gap: calc(var(--spacing) * 3);
+  align-items: center;
+  min-block-size: calc(var(--spacing) * 16);
+  padding: calc(var(--spacing) * 3) calc(var(--spacing) * 4);
+  border-block-end: var(--nuv-border-width) solid var(--color-border);
+  background-color: color-mix(
+    in oklab,
+    var(--color-background) 85%,
+    transparent
+  );
+  backdrop-filter: blur(8px);
+  box-sizing: border-box;
+}
+
+.shell__heading {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.shell__title {
+  margin: 0;
+  overflow: hidden;
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-snug);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.shell__description {
+  margin: 0;
+  overflow: hidden;
+  color: var(--color-muted-foreground);
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.shell__actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: calc(var(--spacing) * 2);
+  align-items: center;
+}
+
+.shell__page {
+  display: grid;
+  gap: calc(var(--spacing) * 4);
+  grid-template-columns: minmax(0, 1fr);
+  inline-size: 100%;
+  max-inline-size: 96rem;
+  margin-inline: auto;
+  padding: calc(var(--spacing) * 4);
+  box-sizing: border-box;
+}
+
+.shell__page--narrow {
+  max-inline-size: 48rem;
+}
+
+@media (min-width: 48rem) {
+  .shell__bar {
+    padding-inline: calc(var(--spacing) * 6);
+  }
+
+  .shell__page {
+    gap: calc(var(--spacing) * 6);
+    padding: calc(var(--spacing) * 6);
+  }
+}
+
+/* The 404 page, outside the dashboard frame. */
+.not-found {
+  display: grid;
+  place-items: center;
+  min-block-size: 100dvh;
+  padding: calc(var(--spacing) * 4);
+  box-sizing: border-box;
+}
+
+/* Skeletons, the Suspense fallbacks. */
+
+.skeleton {
+  display: grid;
+  gap: calc(var(--spacing) * 3);
+}
+
+.skeleton__chart {
+  aspect-ratio: 4 / 3;
+  block-size: auto;
+}
+
+.skeleton__chart--wide {
+  aspect-ratio: 16 / 10;
+}
+
+.skeleton__chart--round {
+  aspect-ratio: 1;
+  max-inline-size: 18rem;
+  margin-inline: auto;
+  border-radius: var(--radius-full);
+}
+
+.skeleton__row {
+  display: flex;
+  gap: calc(var(--spacing) * 3);
+  align-items: center;
+}
+
+.skeleton__avatar {
+  --nuv-skeleton-width: 2rem;
+  --nuv-skeleton-height: 2rem;
+
+  flex-shrink: 0;
+}
+
+.skeleton__avatar-lg {
+  --nuv-skeleton-width: 3.5rem;
+  --nuv-skeleton-height: 3.5rem;
+}
+
+.skeleton__lines {
+  flex: 1;
+}
+
+.skeleton__line--short {
+  inline-size: 55%;
+}
+
+.skeleton__toolbar {
+  block-size: calc(var(--spacing) * 9);
+  inline-size: min(100%, 24rem);
+}
+
+.skeleton__table-row {
+  block-size: calc(var(--spacing) * 10);
+}
+
+.skeleton__title {
+  block-size: calc(var(--spacing) * 5);
+  inline-size: 12rem;
+}
+
+.skeleton__value {
+  block-size: calc(var(--spacing) * 8);
+  inline-size: 40%;
+}
+
+.skeleton__spark {
+  block-size: 3.5rem;
+  margin-block-start: auto;
+}
+
+.skeleton__status {
+  display: contents;
+}
+
+@media (min-width: 64rem) {
+  .skeleton__chart--wide {
+    aspect-ratio: auto;
+    block-size: 27rem;
+  }
+}
+
+/* Accent picker, in the sidebar footer. Each swatch is drawn at the same
+   lightness and chroma as the accent it sets, for the mode in use. */
+
+.accent {
+  padding-block: 0;
+}
+
+.accent__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.accent__custom {
+  display: inline-flex;
+  gap: calc(var(--spacing) * 1);
+  align-items: center;
+  margin-inline-start: calc(var(--spacing) * 2);
+  font-variant-numeric: tabular-nums;
+}
+
+.accent__swatches {
+  --nuv-toggle-group-gap: calc(var(--spacing) * 0.5);
+
+  flex-wrap: wrap;
+}
+
+/* Round 28px targets; the pressed one shows a ring, not a fill. */
+.accent__item {
+  --nuv-toggle-height: 1.75rem;
+  --nuv-toggle-padding-inline: calc(var(--spacing) * 1.5);
+  --nuv-toggle-radius: var(--radius-full);
+  --nuv-toggle-on-bg: transparent;
+}
+
+.accent__swatch {
+  --swatch: oklch(54.6% 0.215 var(--swatch-h));
+
+  display: block;
+  inline-size: 1rem;
+  block-size: 1rem;
+  border-radius: var(--radius-full);
+  background-color: var(--swatch);
+  box-shadow: inset 0 0 0 1px
+    color-mix(in oklab, var(--color-foreground) 15%, transparent);
+}
+
+[data-theme="dark"] .accent__swatch {
+  --swatch: oklch(72% 0.16 var(--swatch-h));
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme="system"] .accent__swatch {
+    --swatch: oklch(72% 0.16 var(--swatch-h));
+  }
+}
+
+.accent__swatch--small {
+  inline-size: 0.625rem;
+  block-size: 0.625rem;
+}
+
+.accent__item[data-state="on"] .accent__swatch {
+  box-shadow:
+    0 0 0 2px var(--color-surface),
+    0 0 0 4px var(--swatch);
+}
+
+/* Navigation feedback. A thin bar along the top of the window while a page
+   is on its way, and a spinner in place of the clicked link's icon. Both
+   wait 150ms before showing, so a fast navigation doesn't flash them. The
+   delay only changes opacity; the bar's own motion follows nuvui's
+   reduced-motion handling. */
+
+@keyframes shell-appear {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.nav-progress {
+  --nuv-progress-height: 3px;
+  --nuv-progress-radius: 0;
+  --nuv-progress-track: transparent;
+  --nuv-progress-border: transparent;
+  --nuv-progress-indicator: var(--color-primary);
+
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: 2;
+  pointer-events: none;
+  animation: shell-appear 0s linear 150ms both;
+}
+
+/* In place of an icon, the spinner takes the icon's size and spot. */
+.link-status {
+  --nuv-spinner-size: 1rem;
+
+  flex-shrink: 0;
+  animation: shell-appear 0s linear 150ms both;
+}
+
+/* After a link's text, with a little room. */
+.link-status--inline {
+  --nuv-spinner-size: 0.875em;
+
+  margin-inline-start: calc(var(--spacing) * 1.5);
+  vertical-align: middle;
+}
